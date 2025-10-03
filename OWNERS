@@ -1,10 +1,6 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+reviewers:
+- falcosidekick-reviewers
 approvers:
-  - Issif
-  - leogr
-  - cpanato
-  - fjogeleit
-emeritus_approvers:
-  - leodido
-  - nibalizer
-  - KeisukeYamashita
-  - developer-guy
+- falcosidekick-approvers
