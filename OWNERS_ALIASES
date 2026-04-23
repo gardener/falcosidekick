@@ -2,8 +2,6 @@
 
 aliases:
   falcosidekick-reviewers:
-  - lsroe
   - marwinski
   falcosidekick-approvers:
-  - lsroe
   - marwinski
