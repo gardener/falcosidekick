@@ -2,10 +2,12 @@
 
 aliases:
   falcosidekick-reviewers:
+  - lsroe
   - marwinski
   - AleksandarSavchev
   - georgibaltiev
   falcosidekick-approvers:
+  - lsroe
   - marwinski
   - AleksandarSavchev
   - georgibaltiev
