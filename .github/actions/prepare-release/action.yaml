@@ -1,0 +1,8 @@
+name: Prepare Release
+
+runs:
+  using: composite
+  steps:
+    - name: noop
+      shell: bash
+      run: echo "no additional preparation needed"
