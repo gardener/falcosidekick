@@ -54,7 +54,7 @@ IMAGE_TAG := falcosecurity/falcosidekick:latest
 .PHONY: falcosidekick
 falcosidekick:
 	$(GO) mod download
-	GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -trimpath -ldflags "$(LDFLAGS)" -gcflags all=-trimpath=/src -asmflags all=-trimpath=/src -a -installsuffix cgo -o $@ .
+	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -trimpath -ldflags "$(LDFLAGS)" -gcflags all=-trimpath=/src -asmflags all=-trimpath=/src -a -installsuffix cgo -o $@ .
 
 .PHONY: falcosidekick-linux
 falcosidekick-linux:
