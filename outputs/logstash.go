@@ -68,7 +68,7 @@ func NewLogstashClient(config *types.Configuration, stats *types.Statistics, pro
 			return nil, err
 		}
 
-		caCert, err := os.ReadFile(MutualTLSClientCaCertPath)
+		caCert, err := os.ReadFile(MutualTLSClientCaCertPath) // #nosec G304 -- path is from trusted configuration
 		if err != nil {
 			err = fmt.Errorf("failed to load logstash SSL CA certificate: %w", err)
 			utils.Log(utils.ErrorLvl, "Logstash", err.Error())

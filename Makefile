@@ -1,6 +1,9 @@
 # Ensure Make is run with bash shell as some syntax below is bash-specific
 SHELL=/bin/bash -o pipefail
 
+REPO_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+HACK_DIR  := $(REPO_ROOT)/hack
+
 .DEFAULT_GOAL:=help
 GOPATH  := $(shell go env GOPATH)
 GOARCH  := $(shell go env GOARCH)
@@ -43,6 +46,12 @@ GO_INSTALL = ./hack/go_install.sh
 GOLANGCI_LINT_VER := v1.57.2
 GOLANGCI_LINT_BIN := golangci-lint
 GOLANGCI_LINT := $(TOOLS_BIN_DIR)/$(GOLANGCI_LINT_BIN)-$(GOLANGCI_LINT_VER)
+
+GOSEC_VER := v2.26.1
+GOSEC_BIN := gosec
+GOSEC := $(TOOLS_BIN_DIR)/$(GOSEC_BIN)-$(GOSEC_VER)
+
+export PATH := $(abspath $(TOOLS_BIN_DIR)):$(PATH)
 
 # Docker
 IMAGE_TAG := falcosecurity/falcosidekick:latest
@@ -93,6 +102,14 @@ lint: $(GOLANGCI_LINT) ## Lint codebase
 lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
 	$(GOLANGCI_LINT) run -v --fast=false
 
+.PHONY: sast
+sast: $(GOSEC)
+	@bash $(HACK_DIR)/sast.sh
+
+.PHONY: sast-report
+sast-report: $(GOSEC)
+	@bash $(HACK_DIR)/sast.sh --gosec-report true
+
 ## --------------------------------------
 ## Release
 ## --------------------------------------
@@ -108,9 +125,15 @@ goreleaser-snapshot: ## Release snapshot using goreleaser
 $(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint $(GOLANGCI_LINT_BIN) $(GOLANGCI_LINT_VER)
 
+$(GOSEC): ## Build gosec from tools folder.
+	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/securego/gosec/v2/cmd/gosec $(GOSEC_BIN) $(GOSEC_VER)
+
 ## --------------------------------------
 ## Cleanup / Verification
 ## --------------------------------------
+
+.PHONY: verify
+verify: test sast-report
 
 .PHONY: clean
 clean:

@@ -61,7 +61,7 @@ func (i *Info) String() string {
 	fmt.Fprintf(w, "Compiler:\t%s\n", i.Compiler)
 	fmt.Fprintf(w, "Platform:\t%s\n", i.Platform)
 
-	w.Flush()
+	w.Flush() // #nosec G104 -- writing to a bytes.Buffer cannot fail
 	return b.String()
 }
 

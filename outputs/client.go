@@ -302,7 +302,9 @@ func (c *Client) sendRequest(method string, payload interface{}, responseBody *s
 		if err := json.NewEncoder(zipper).Encode(payload); err != nil {
 			utils.Log(utils.ErrorLvl, c.OutputType, err.Error())
 		}
-		zipper.Close()
+		if err := zipper.Close(); err != nil {
+			utils.Log(utils.ErrorLvl, c.OutputType, err.Error())
+		}
 		if c.Config.Debug {
 			debugBody := new(bytes.Buffer)
 			if err := json.NewEncoder(debugBody).Encode(payload); err == nil {
@@ -510,7 +512,7 @@ func (c *Client) configureTransport() (*http.Transport, error) {
 		}
 
 		// Load CA cert
-		caCert, err := os.ReadFile(MutualTLSClientCaCertPath)
+		caCert, err := os.ReadFile(MutualTLSClientCaCertPath) // #nosec G304 -- path is from trusted configuration
 		if err != nil {
 			return customTransport, err
 		}

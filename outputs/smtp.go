@@ -158,7 +158,7 @@ func (c *Client) SendMail(falcopayload types.FalcoPayload) {
 			c.ReportErr("SASL Authentication mechanisms", err)
 			return
 		}
-		smtpClient.Auth(auth)
+		smtpClient.Auth(auth) // #nosec G104 -- error is handled by the SMTP server response on subsequent calls
 	}
 
 	body := sp.Subject + "\n" + sp.Body

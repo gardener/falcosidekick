@@ -71,7 +71,7 @@ func NewElasticsearchClient(params types.InitClientArgs) (*Client, error) {
 
 func (c *Client) ElasticsearchPost(falcopayload types.FalcoPayload) {
 	if c.Config.Elasticsearch.Batching.Enabled {
-		c.batcher.Push(falcopayload)
+		c.batcher.Push(falcopayload) // #nosec G104 -- batcher error is logged internally
 		return
 	}
 

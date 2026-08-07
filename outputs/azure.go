@@ -77,7 +77,6 @@ func (c *Client) EventHubPost(falcopayload types.FalcoPayload) {
 		return
 	}
 
-	producerClient.SendEventDataBatch(ctx, batch, nil)
 	if err := producerClient.SendEventDataBatch(ctx, batch, nil); err != nil {
 		c.setEventHubErrorMetrics()
 		utils.Log(utils.ErrorLvl, c.OutputType+" EventHub", err.Error())

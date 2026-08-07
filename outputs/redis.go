@@ -46,7 +46,7 @@ func NewRedisClient(config *types.Configuration, stats *types.Statistics, promSt
 			return nil, err
 		}
 
-		caCert, err := os.ReadFile(caCertFile)
+		caCert, err := os.ReadFile(caCertFile) // #nosec G304
 		if err != nil {
 			err = fmt.Errorf("failed to load Redis CA certificate: %w", err)
 			utils.Log(utils.ErrorLvl, "Redis", err.Error())

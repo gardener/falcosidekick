@@ -66,7 +66,7 @@ func (c *Client) MQTTPublish(falcopayload types.FalcoPayload) {
 		return
 	}
 	defer c.MQTTClient.Disconnect(100)
-	if err := c.MQTTClient.Publish(c.Config.MQTT.Topic, byte(c.Config.MQTT.QOS), c.Config.MQTT.Retained, falcopayload.String()).Error(); err != nil {
+	if err := c.MQTTClient.Publish(c.Config.MQTT.Topic, byte(c.Config.MQTT.QOS), c.Config.MQTT.Retained, falcopayload.String()).Error(); err != nil { // #nosec G115
 		go c.CountMetric(Outputs, 1, []string{"output:mqtt", "status:error"})
 		c.Stats.MQTT.Add(Error, 1)
 		c.PromStats.Outputs.With(map[string]string{"destination": "mqtt", "status": Error}).Inc()

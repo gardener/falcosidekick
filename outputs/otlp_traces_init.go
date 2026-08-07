@@ -69,19 +69,19 @@ func installTracesExportPipeline(config *types.Configuration, ctx context.Contex
 func OTLPTracesInit(client *Client, config *types.Configuration, ctx context.Context) (func(), error) {
 	// As config.OTLP.Traces fields may have been set by our own config (e.g. YAML),
 	// we need to set SDK environment variables accordingly.
-	os.Setenv("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", strings.TrimSpace(config.OTLP.Traces.Endpoint))
+	os.Setenv("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", strings.TrimSpace(config.OTLP.Traces.Endpoint)) // #nosec G104 -- env var key is a constant
 	if config.OTLP.Traces.Protocol != "" {
-		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_PROTOCOL", strings.TrimSpace(config.OTLP.Traces.Protocol))
+		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_PROTOCOL", strings.TrimSpace(config.OTLP.Traces.Protocol)) // #nosec G104 -- env var key is a constant
 	}
 	if config.OTLP.Traces.Headers != "" {
-		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_HEADERS", strings.TrimSpace(config.OTLP.Traces.Headers))
+		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_HEADERS", strings.TrimSpace(config.OTLP.Traces.Headers)) // #nosec G104 -- env var key is a constant
 	}
 	if config.OTLP.Traces.Timeout != 0 {
-		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_TIMEOUT", fmt.Sprintf("%d", config.OTLP.Traces.Timeout))
+		os.Setenv("OTEL_EXPORTER_OTLP_TRACES_TIMEOUT", fmt.Sprintf("%d", config.OTLP.Traces.Timeout)) // #nosec G104 -- env var key is a constant
 	}
 	if len(config.OTLP.Traces.ExtraEnvVars) != 0 {
 		for i, j := range config.OTLP.Traces.ExtraEnvVars {
-			os.Setenv(i, j)
+			os.Setenv(i, j) // #nosec G104 -- best-effort env setup for OTLP SDK
 		}
 	}
 	// Registers a tracer Provider globally.

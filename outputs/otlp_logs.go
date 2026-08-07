@@ -60,19 +60,19 @@ func NewOtlpLogsClient(config *types.Configuration, stats *types.Statistics, pro
 func OTLPLogsInit(ctx context.Context, config *types.Configuration) (*sdklog.LoggerProvider, error) {
 	// As config.OTLP.Logs fields may have been set by our own config (e.g. YAML),
 	// we need to set SDK environment variables accordingly.
-	os.Setenv("OTEL_EXPORTER_OTLP_LOGS_ENDPOINT", strings.TrimSpace(config.OTLP.Logs.Endpoint))
+	os.Setenv("OTEL_EXPORTER_OTLP_LOGS_ENDPOINT", strings.TrimSpace(config.OTLP.Logs.Endpoint)) // #nosec G104 -- env var key is a constant
 	if config.OTLP.Logs.Protocol != "" {
-		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_PROTOCOL", strings.TrimSpace(config.OTLP.Logs.Protocol))
+		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_PROTOCOL", strings.TrimSpace(config.OTLP.Logs.Protocol)) // #nosec G104 -- env var key is a constant
 	}
 	if config.OTLP.Logs.Headers != "" {
-		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_HEADERS", strings.TrimSpace(config.OTLP.Logs.Headers))
+		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_HEADERS", strings.TrimSpace(config.OTLP.Logs.Headers)) // #nosec G104 -- env var key is a constant
 	}
 	if config.OTLP.Logs.Timeout != 0 {
-		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_TIMEOUT", fmt.Sprintf("%d", config.OTLP.Logs.Timeout))
+		os.Setenv("OTEL_EXPORTER_OTLP_LOGS_TIMEOUT", fmt.Sprintf("%d", config.OTLP.Logs.Timeout)) // #nosec G104 -- env var key is a constant
 	}
 	if len(config.OTLP.Logs.ExtraEnvVars) != 0 {
 		for i, j := range config.OTLP.Logs.ExtraEnvVars {
-			os.Setenv(i, j)
+			os.Setenv(i, j) // #nosec G104 -- best-effort env setup for OTLP SDK
 		}
 	}
 

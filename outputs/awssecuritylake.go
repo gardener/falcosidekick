@@ -221,7 +221,7 @@ func (c *Client) StartSecurityLakeWorker() {
 			continue
 		}
 
-		time.Sleep(time.Duration(c.Config.AWS.SecurityLake.Interval) * time.Minute) //nolint:gosec // disable G115
+		time.Sleep(time.Duration(c.Config.AWS.SecurityLake.Interval) * time.Minute) // #nosec G115 // disable G115
 	}
 }
 
