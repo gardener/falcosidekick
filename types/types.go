@@ -803,6 +803,7 @@ type RedisConfig struct {
 
 // TelegramConfig represents parameters for Telegram
 type TelegramConfig struct {
+	Host            string
 	Token           string
 	ChatID          string
 	MinimumPriority string
@@ -849,11 +850,12 @@ type OTLPTraces struct {
 	Duration        int64
 	Synced          bool
 	ExtraEnvVars    map[string]string
+	TLS             bool
 	CheckCert       bool
 	MinimumPriority string
 }
 
-// OTLPLogs represents config parameters for OTLP Traces
+// OTLPLogs represents config parameters for OTLP Logs
 type OTLPLogs struct {
 	Endpoint        string
 	Protocol        string
@@ -861,6 +863,7 @@ type OTLPLogs struct {
 	Synced          bool
 	Headers         string
 	ExtraEnvVars    map[string]string
+	TLS             bool
 	CheckCert       bool
 	MinimumPriority string
 }

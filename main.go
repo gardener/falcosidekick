@@ -790,9 +790,9 @@ func init() {
 
 	if config.Telegram.ChatID != "" && config.Telegram.Token != "" {
 		var err error
-		var urlFormat = "https://api.telegram.org/bot%s/sendMessage"
+		var urlFormat = "%s/bot%s/sendMessage"
 
-		telegramClient, err = outputs.NewClient("Telegram", fmt.Sprintf(urlFormat, config.Telegram.Token), types.CommonConfig{CheckCert: config.Telegram.CheckCert}, *initClientArgs)
+		telegramClient, err = outputs.NewClient("Telegram", fmt.Sprintf(urlFormat, config.Telegram.Host, config.Telegram.Token), types.CommonConfig{CheckCert: config.Telegram.CheckCert}, *initClientArgs)
 
 		if err != nil {
 			config.Telegram.ChatID = ""

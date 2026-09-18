@@ -408,6 +408,7 @@ var outputDefaults = map[string]map[string]any{
 		"CheckCert":       true,
 	},
 	"Telegram": {
+		"Host":            "https://api.telegram.org",
 		"Token":           "",
 		"ChatID":          "",
 		"MessageThreadID": "",
@@ -605,6 +606,7 @@ func getConfig() *types.Configuration {
 	v.SetDefault("OTLP.Traces.Timeout", 10000)
 	v.SetDefault("OTLP.Traces.Synced", false)
 	v.SetDefault("OTLP.Traces.MinimumPriority", "")
+	v.SetDefault("OTLP.Traces.TLS", false)
 	v.SetDefault("OTLP.Traces.CheckCert", true)
 	// NB: Unfortunately falco events don't provide endtime, artificially set
 	// it to 1000ms by default, override-able via OTLP_DURATION environment variable.
@@ -619,6 +621,7 @@ func getConfig() *types.Configuration {
 	v.SetDefault("OTLP.Logs.Headers", "")
 	v.SetDefault("OTLP.Logs.Timeout", 10000)
 	v.SetDefault("OTLP.Logs.MinimumPriority", "")
+	v.SetDefault("OTLP.Logs.TLS", false)
 	v.SetDefault("OTLP.Logs.CheckCert", true)
 
 	v.SetDefault("OTLP.Metrics.Endpoint", "")
@@ -628,6 +631,7 @@ func getConfig() *types.Configuration {
 	v.SetDefault("OTLP.Metrics.Headers", "")
 	v.SetDefault("OTLP.Metrics.Timeout", 10000)
 	v.SetDefault("OTLP.Metrics.MinimumPriority", "")
+	v.SetDefault("OTLP.Metrics.TLS", false)
 	v.SetDefault("OTLP.Metrics.CheckCert", true)
 	v.SetDefault("OTLP.Metrics.ExtraAttributes", "")
 
@@ -925,6 +929,10 @@ func getConfig() *types.Configuration {
 			// The `>` is used to sort in descending order. If you want to sort in ascending order, use `<`.
 			return c.Alertmanager.DropEventThresholdsList[i].Value > c.Alertmanager.DropEventThresholdsList[j].Value
 		})
+	}
+
+	if c.Telegram.Host == "" {
+		c.Telegram.Host = "https://api.telegram.org"
 	}
 
 	c.Slack.MinimumPriority = checkPriority(c.Slack.MinimumPriority)
